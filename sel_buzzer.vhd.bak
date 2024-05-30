@@ -1,0 +1,22 @@
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE IEEE.numeric_std.ALL;
+
+ENTITY sel_buzzer IS
+	PORT (	q IN std_logic_vector(3 DOWNTO 1);
+				m1,m2,m3 : IN std_logic;
+				b : OUT std_logic
+);
+END sel_buzzer;
+
+ARCHITECTURE s OF sel_buzzer IS
+
+BEGIN
+
+	CASE (q) IS
+		WHEN B"001" => b <= m1;
+		WHEN B"100" => b <= m2;
+		WHEN B"010" => b <= m3;
+		WHEN OTHERS => b <= 0;
+	END CASE;
+END s;
