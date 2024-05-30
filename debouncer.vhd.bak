@@ -1,0 +1,35 @@
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE IEEE.numeric_std.ALL;
+
+ENTITY debouncer IS
+	PORT (
+			clock, key(4 DOWNTO 0) : IN std_logic;
+			led(4 DOWNTO 0) : OUT std_logic
+);
+END dff;
+ARCHITECTURE db of debouncer IS
+	CONSTANT overflow : integer := 1500000;
+	SIGNAL dff : std_logic_vector(1 DOWNTO 0);
+	SIGNAL aux : std_logic;
+	SIGNAL cnt : integer(1500000 DOWNTO 0); 
+BEGIN 	
+	dff(0) <= key(1);
+	dff(1) <= dff(0);
+	aux <= dff(1) xor dff(0);
+	L1 : process(clock,key(1))
+	BEGIN
+		IF(aux = '1') THEN
+			cnt <= 0;
+		ELSE
+			IF(cnt < 1500000)  THEN cnt <= cnt+1;
+			ELSE 
+				cnt <=0;
+				led(1) <= key(1);
+			END IF;
+		END IF;
+	END PROCESS;
+END db;
+		
+			
+		

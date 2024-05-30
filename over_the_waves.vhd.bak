@@ -1,0 +1,35 @@
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE IEEE.pkg_buzzer_over_the_waves.ALL;
+ENTITY over_the_waves IS
+	PORT (clock, stop, play : IN std_logic;
+			buzzer: OUT std_logic);		
+END over_the_waves;
+ARCHITECTURE estrutural OF over_the_waves IS
+	SIGNAL t1, t2, t4 : std_logic;
+	SIGNAL t3, t5 : std_logic_vector (27 DOWNTO 0);
+BEGIN
+	temp : temporizador PORT MAP ( 
+		Clk => clock,
+		Disparo =>t2,
+		Overflow =>	t3,
+		Q => t1
+	);
+		
+	div_clock : divisor_clock PORT MAP (
+		Clk_in 	=> clock,
+		Overflow => t5,
+		Clk_out	=> buzzer
+	);
+	
+	control : controlador_over_the_waves PORT MAP ( 	
+		Clk_out  => t4,
+		Disparo  => t2,
+		Temp_out => t3,
+		Freq_out => t5,
+		Clk_in  => clock,
+		Stop_in => stop,
+		Play_in => play,
+		Duracao => t1
+	);
+END estrutural;

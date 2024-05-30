@@ -1,0 +1,23 @@
+LIBRARY IEEE;
+USE IEEE.std_logic_1164.ALL;
+USE IEEE.numeric_std.ALL;
+
+ENTITY dff IS
+	PORT (
+			clk, D, CLRN, PRN  : IN std_logic;
+			Q : OUT std_logic
+);
+END dff;
+ARCHITECTURE d of dff IS
+	Q <= '0';
+BEGIN
+	IF (CLRN ='0') THEN
+		Q <= '1';
+	ELSIF (PRN = '0') THEN
+		Q <= '0';
+	ELSIF (CLRN = '1' AND PRN = '1' AND rising_edge(clk))
+		Q <= D;
+	ELSE
+		Q <= Q;
+	END IF;
+END d;
